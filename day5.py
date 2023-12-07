@@ -106,4 +106,3 @@ def seed_2(text):
     return next_ranges[0]["start"]
 
 seed_text = get_data(day=5, year=2023)
-print(seed_2(seed_text))
