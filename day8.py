@@ -1,5 +1,6 @@
 import re
 from aocd import get_data
+from math import lcm
 
 def path_1(text):
     paths = {}
@@ -44,34 +45,48 @@ def path_2(text):
                 }
 
     locations = []
-    cycle_possibilities = []
-
 
     for possible_start in paths.keys():
         if possible_start[-1] == "A":
             locations.append(possible_start)
-            cycle_possibilities.append({})
 
+    cycle_possibilities = []
 
-    step_counter = 0
-    location_check = 0
-    while location_check < len(locations):
-        location_check = 0
-
-        char = route[step_counter%len(route)]
-
-        #print(f"{step_counter} {locations} {char}")
-        for i, location in enumerate(locations):
-            location = paths[location][char]
-
+    for i in range(len(locations)):
+        location = locations[i]
+        cycle_keys = {}
+        possible_outs = []
+        step_counter = 0
+        found_cycle = False
+        while not found_cycle:  
+            route_index = step_counter%len(route)
+            cycle_key = f"{location}_{route_index}"
             if location[-1] == "Z":
-                location_check += 1
+                print(location)
+                print(step_counter)
+                possible_outs.append(step_counter)
+            
+            if cycle_key in cycle_keys:
+                new_possible_outs = []
+                for possible_out in possible_outs:
+                    if possible_out > cycle_keys[cycle_key]:
+                        new_possible_outs.append(possible_out)
 
-            locations[i] = location
+                cycle_possibilities.append({
+                    "initial": cycle_keys[cycle_key],
+                    "length": step_counter - cycle_keys[cycle_key],
+                    "possible_outs": new_possible_outs
+                })
+                found_cycle = True
+            else:
+                cycle_keys[cycle_key] = step_counter
+                location = paths[location][route[route_index]]
+                step_counter += 1
 
-        step_counter += 1
-
-    return step_counter
+    number = cycle_possibilities[0]["possible_outs"][-1] 
+    for cycle in cycle_possibilities:
+        number = lcm(number, cycle["possible_outs"][0])
+        
+    return number
 
 path_text = get_data(day=8, year=2023)
-print(path_2(path_text))
