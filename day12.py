@@ -122,3 +122,4 @@ def springs_2(text):
     return error_count
 
 springs_text = get_data(day=12, year=2023)
+print(springs_2(springs_text))
