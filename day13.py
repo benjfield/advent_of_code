@@ -89,4 +89,4 @@ def mirrors_2(text):
 
     return total_reflections
 
-springs_text = get_data(day=13, year=2023)
+mirrors_text = get_data(day=13, year=2023)
