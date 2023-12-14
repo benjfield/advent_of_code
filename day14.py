@@ -5,59 +5,51 @@ import copy
 def tilt_east(rock_beams):
     positions = []
     for i in range(len(rock_beams)):
-        first_hash = len(rock_beams[0])
-        round_count = 0
+        next_o = len(rock_beams[0])
         for j in reversed(range(len(rock_beams[0]))):
             if rock_beams[i][j] == "#":
-                first_hash = j
-                round_count = 0
+                next_o = j
             elif rock_beams[i][j] == "O":
-                round_count += 1
+                next_o -= 1
                 rock_beams[i][j] = "."
-                rock_beams[i][first_hash - round_count] = "O"
+                rock_beams[i][next_o] = "O"
 
-                positions.append(len(rock_beams[0])*i + (first_hash - round_count) + 1)
-                
+                positions.append(len(rock_beams[0])*i + next_o)
+
     return tuple(positions)
 
 def tilt_west(rock_beams):
     for i in range(len(rock_beams)):
-        first_hash = -1
-        round_count = 0
+        next_o = -1
         for j in range(len(rock_beams[0])):
             if rock_beams[i][j] == "#":
-                first_hash = j
-                round_count = 0
+                next_o = j
             elif rock_beams[i][j] == "O":
-                round_count += 1
+                next_o += 1
                 rock_beams[i][j] = "."
-                rock_beams[i][first_hash + round_count] = "O"
+                rock_beams[i][next_o] = "O"
                 
 def tilt_south(rock_beams):
     for i in range(len(rock_beams[0])):
-        first_hash = len(rock_beams)
-        round_count = 0
+        next_o = len(rock_beams)
         for j in reversed(range(len(rock_beams))):
             if rock_beams[j][i] == "#":
-                first_hash = j
-                round_count = 0
+                next_o = j
             elif rock_beams[j][i] == "O":
-                round_count += 1
+                next_o -= 1
                 rock_beams[j][i] = "."
-                rock_beams[first_hash - round_count][i] = "O"
+                rock_beams[next_o][i] = "O"
 
 def tilt_north(rock_beams):
     for i in range(len(rock_beams[0])):
-        first_hash = -1
-        round_count = 0
+        next_o = -1
         for j in range(len(rock_beams)):
             if rock_beams[j][i] == "#":
-                first_hash = j
-                round_count = 0
+                next_o = j
             elif rock_beams[j][i] == "O":
-                round_count += 1
+                next_o += 1
                 rock_beams[j][i] = "."
-                rock_beams[first_hash + round_count][i] = "O"
+                rock_beams[next_o][i] = "O"
 
 def spin_cycle(rock_beams):
     tilt_north(rock_beams)
@@ -72,14 +64,6 @@ def calculate_load(rock_beams):
             if rock_char == "O":
                 total_load += (len(beam) - beam_number)
     return total_load
-
-def calculate_position_check(rock_beams):
-    positions = []
-    for beam_number, beam in enumerate(rock_beams):
-        for column_number, rock_char in enumerate(beam):
-            if rock_char == "O":
-                positions.append(len(rock_beams[0])*beam_number + column_number + 1)
-    return tuple(positions)
 
 def rocks_1(text):
     rock_beams = []
@@ -123,4 +107,3 @@ def rocks_2(text):
     return calculate_load(rock_beams)
 
 rocks_text = get_data(day=14, year=2023)
-print(rocks_2(rocks_text))
