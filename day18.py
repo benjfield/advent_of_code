@@ -1,5 +1,6 @@
 from aocd import get_data
 import re
+from copy import deepcopy
 def dig_1(text):
     dig_instructions = []
     for digs in text.split("\n"):
@@ -16,97 +17,100 @@ def dig_1(text):
     x = 0
     y = 0
 
-    previous_x = 0
+    lowest_x = 0
+    largest_x = 0
+    lowest_y = 0
+    largest_y = 0
 
-    for i, dig in enumerate(dig_instructions):
-        if dig["direction"] == "U":
-            pivots = dig_pivots.get(y, []) 
-            if dig_instructions[i-2]["direction"] == "D":
-                pivots.append({
-                    "left": min(x, previous_x),
-                    "right": max(x, previous_x),
-                    "contain": False
-                })
-                dig_pivots[y] = pivots
-            else:
-                pivots.append({
-                    "left": min(x, previous_x),
-                    "right": max(x, previous_x),
-                    "contain": True
-                })
-            
-                dig_pivots[y] = pivots
-            for i in range(1, dig["distance"]):
-                pivots = dig_pivots.get(y - i, [])
+    for dig_instruction in dig_instructions:
+        if dig_instruction["direction"] == "U":
+            y -= dig_instruction["distance"]
+        elif dig_instruction["direction"] == "D":
+            y += dig_instruction["distance"]
+        elif dig_instruction["direction"] == "R":
+            x += dig_instruction["distance"]
+        elif dig_instruction["direction"] == "L":
+            x -= dig_instruction["distance"]
 
-                pivots.append({
-                    "left": x,
-                    "right": x,
-                    "contain": True
-                }) 
-                dig_pivots[y-i] = pivots
+        lowest_x = min(x, lowest_x)
+        largest_x = max(x, largest_x)
+        lowest_y = min(y, lowest_y)
+        largest_y = max(y, largest_y)
 
-            y -= dig["distance"]
+    start_x = 0 - lowest_x
+    start_y = 0 - lowest_y
 
-        elif dig["direction"] == "D":
-            pivots = dig_pivots.get(y, []) 
-            if dig_instructions[i-2]["direction"] == "U":
-                pivots.append({
-                    "left": min(x, previous_x),
-                    "right": max(x, previous_x),
-                    "contain": False
-                })
-                dig_pivots[y] = pivots
-            else:
-                pivots.append({
-                    "left": min(x, previous_x),
-                    "right": max(x, previous_x),
-                    "contain": True
-                })
-            
-                dig_pivots[y] = pivots
-            for i in range(1, dig["distance"]):
-                pivots = dig_pivots.get(y + i, [])
+    dig_tiles = []
 
-                pivots.append({
-                    "left": x,
-                    "right": x,
-                    "contain": True
-                }) 
-                dig_pivots[y+i] = pivots
-            y += dig["distance"]
-                
-        elif dig["direction"] == "R":
-            previous_x = x
-            x += dig["distance"]
-        else:
-            previous_x = x
-            x -= dig["distance"]
+    for y in range(largest_y - lowest_y + 1):
+        dig_tiles.append([])
+        for x in range(largest_x - lowest_x + 1):
+            dig_tiles[-1].append(False)
 
-        total_dug += dig["distance"]
+    x = start_x
+    y = start_y
 
-        inside_dig = 0
-
-    for i, pivot_points in dig_pivots.items():
-
-
-        def sort_by_left(map):
-            return map["left"]
+    for row in dig_tiles:
+        print(row)
         
-        pivot_points.sort(key=sort_by_left)
+    for dig_instruction in dig_instructions:
+        if dig_instruction["direction"] == "U":
+            for i in range(dig_instruction["distance"]):
+                dig_tiles[y - i][x] = True
+            y -= dig_instruction["distance"]
+        elif dig_instruction["direction"] == "D":
+            for i in range(dig_instruction["distance"]):
+                dig_tiles[y + i][x] = True
+            y += dig_instruction["distance"]
+        elif dig_instruction["direction"] == "R":
+            for i in range(dig_instruction["distance"]):
+                dig_tiles[y][x + i] = True
+            x += dig_instruction["distance"]
+        elif dig_instruction["direction"] == "L":
+            for i in range(dig_instruction["distance"]):
+                dig_tiles[y][x - i] = True
+            x -= dig_instruction["distance"]
 
-        inside=False
-        for i in range(len(pivot_points) - 1):
-            if inside == False and not pivot_points[i]["contain"]:
-                pass
-            elif inside == True and pivot_points[i]["contain"]:
-                pass
+    inside_dig_tiles = deepcopy(dig_tiles)
+
+    for y, row in enumerate(dig_tiles):
+        inside = False            
+        previous_left = False
+        previous_right = False
+        for x, tile in enumerate(row):
+            if not tile:
+                if inside:
+                    inside_dig_tiles[y][x] = True
+                previous_right = False
+                previous_left = False
             else:
-                inside_dig += pivot_points[i+1]["left"] - pivot_points[i]["right"] - 1
-                if pivot_points[i]["contain"]:
-                    inside = not inside
+                left = False
+                right = False
 
-    return total_dug + inside_dig
+                if y >= 1 and dig_tiles[y - 1][x]:
+                    left = True
+
+                if y <= len(dig_tiles) - 2 and dig_tiles[y + 1][x]:
+                    right = True
+
+                if right and left:
+                    inside = not inside
+                elif not (previous_left and previous_right):
+                    if (previous_left and right) or (previous_right and left):
+                        inside = not inside
+                if right or left:
+                    previous_left = left
+                    previous_right = right
+
+    total_dug = 0
+
+    for row in inside_dig_tiles:
+        print(row)
+        for tile in row:
+            if tile:
+                total_dug += 1
+
+    return total_dug
           
 dig_text = get_data(day=18, year=2023)     
 print(dig_1(dig_text))
