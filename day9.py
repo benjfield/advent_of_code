@@ -49,5 +49,4 @@ def sequence_2(text):
     return new_values_sum
 
 sequence_text = get_data(day=9, year=2023)
-print(sequence_2(sequence_text))
 

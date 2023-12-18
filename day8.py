@@ -62,8 +62,6 @@ def path_2(text):
             route_index = step_counter%len(route)
             cycle_key = f"{location}_{route_index}"
             if location[-1] == "Z":
-                print(location)
-                print(step_counter)
                 possible_outs.append(step_counter)
             
             if cycle_key in cycle_keys:

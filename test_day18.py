@@ -15,5 +15,11 @@ U 3 (#a77fa3)
 L 2 (#015232)
 U 2 (#7a21e3)"""  
 
+def test_naive_dig_1():
+    assert naive_dig_1(test_text) == 62
+
 def test_dig_1():
     assert dig_1(test_text) == 62
+    
+def test_dig_2():
+    assert dig_2(test_text) == 952408144115
