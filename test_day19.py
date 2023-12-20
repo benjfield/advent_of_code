@@ -20,3 +20,6 @@ hdj{m>838:A,pv}
 
 def test_workflow_1():
     assert workflow_1(test_text) == 19114
+    
+def test_workflow_2():
+    assert workflow_2(test_text) == 167409079868000
