@@ -36,15 +36,15 @@ class Direction(Flag):
         else:
             return Direction.RIGHT
             
-    def move_forward(self, x, y):
+    def move_forward(self, x, y, moves=1):
         if self == Direction.UP:
-            return x, y - 1
+            return x, y - moves
         elif self == Direction.RIGHT:
-            return x + 1, y
+            return x + moves, y
         elif self == Direction.DOWN:
-            return x, y + 1
+            return x, y + moves
         else:
-            return x - 1, y
+            return x - moves, y
 
     def in_direction_total(self, direction_total):
         if self in direction_total:

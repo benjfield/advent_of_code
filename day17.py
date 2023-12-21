@@ -20,8 +20,8 @@ class NodeStore:
     def update_costs(self, node, new_g):
         current_costs = self.store[node]
         if new_g + current_costs["movement_cost"]  < current_costs["g"]:
-            self.store["node"]["g"] = new_g + current_costs["movement_cost"]
-            self.store["node"]["f"] = new_g + current_costs["movement_cost"] + current_costs["h"]
+            self.store[node]["g"] = new_g + current_costs["movement_cost"]
+            self.store[node]["f"] = new_g + current_costs["movement_cost"] + current_costs["h"]
 
     def get_node_and_costs(self, node):
         return node, self.store[node]
@@ -165,3 +165,4 @@ def path_2(text):
     return min(down_cost, right_cost)
 
 path_text = get_data(day=17, year=2023)
+#print(path_2(path_text))
