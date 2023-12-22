@@ -358,4 +358,4 @@ garden_text = get_data(day=21, year=2023)
 #tl_with_hor_only: 59265
 #tl_with_hor_and_ver_only:110725 
 #tl_with_hor_and_ver_only_missing_3: 85681
-print(garden_2(garden_text, 26501365))  
+#print(garden_2(garden_text, 26501365))  
