@@ -52,3 +52,12 @@ class Direction(Flag):
 
     def add_to_direction_total(self, direction_total):
         return self | direction_total
+    
+    @classmethod
+    def direction_from_arrow(cls, symbol):
+        if symbol == ">":
+            return cls.RIGHT
+        elif symbol == "<":
+            return cls.LEFT
+        elif symbol == "v":
+            return cls.DOWN

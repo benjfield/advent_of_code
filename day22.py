@@ -132,7 +132,7 @@ def brick_2(text):
     return total_fall_count
 
 brick_text = get_data(day=22, year=2023)
-print(brick_2(brick_text))        
+#print(brick_2(brick_text))        
 
                 
     
