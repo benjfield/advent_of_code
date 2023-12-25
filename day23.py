@@ -175,4 +175,4 @@ def journey_2(text):
     return start_point.journey_to_end()
 
 journey_text = get_data(day=23, year=2023)
-print(journey_2(journey_text))        
+#print(journey_2(journey_text))        
