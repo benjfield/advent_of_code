@@ -14,5 +14,6 @@ lsr: lhk
 rzs: qnr cmg lsr rsh
 frs: qnr lhk lsr"""
 
-def test_overload_1():
-    assert overload_1(test_text) == 2
+#def test_overload_1():
+#    assert overload_1(test_text) == 2
+

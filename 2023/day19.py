@@ -129,7 +129,7 @@ def generate_parts_and_rules(text):
             finished_workflows = True
         elif finished_workflows:
             regexed_part = re.search(r"x=(\d+),m=(\d+),a=(\d+),s=(\d+)", line)
-
+            print(line)
             parts.append({
                 "x": int(regexed_part.group(1)),
                 "m": int(regexed_part.group(2)),
