@@ -1,19 +1,5 @@
 from advent.runner import register
-class Computer:
-    def __init__(self, state):
-        self.state = [ int(x) for x in state.split(",") ]
-        self.process_index = 0
-
-    def process(self):
-        for i in range(0, len(self.state), 4):
-            if self.state[i] == 1:
-                self.state[self.state[i+3]] = self.state[self.state[i+1]] + self.state[self.state[i+2]]
-            elif self.state[i] == 2:
-                self.state[self.state[i+3]] = self.state[self.state[i+1]] * self.state[self.state[i+2]]
-            elif self.state[i] == 99:
-                break
-            else:
-                raise Exception("Unknown")
+from advent.year_2019.computer import Computer
 
 @register(2, 2019, 1)
 def state_1(text):
