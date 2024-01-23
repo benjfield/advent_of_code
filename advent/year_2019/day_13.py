@@ -1,6 +1,5 @@
 from advent.runner import register
 from advent.year_2019.computer import Computer
-from advent.utils.direction import Direction
 
 @register(13, 2019, 1)
 def arcade_1(text):
