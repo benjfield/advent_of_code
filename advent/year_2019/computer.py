@@ -1,6 +1,11 @@
 class Computer:
-    def __init__(self, initial_state):
-        self.initial_state = [ int(x) for x in initial_state.split(",") ]
+    def __init__(self, initial_state=None, initial_state_array=None):
+        if initial_state is not None:
+            self.initial_state = [ int(x) for x in initial_state.split(",") ]
+        elif initial_state_array is not None:
+            self.initial_state = initial_state_array.copy()
+        else:
+            raise Exception("Missing needed arguments")
         self.reset()
 
     def reset(self):
@@ -9,6 +14,23 @@ class Computer:
         self.input_address = 0
         self.relative_base = 0
         self.inputs = []
+
+    def reset_to_total_state(self, total_state):
+        self.state = total_state["state"].copy()
+        self.address = total_state["address"]
+        self.input_address = total_state["input_address"]
+        self.relative_base = total_state["relative_base"]
+        self.inputs = total_state["inputs"].copy()
+
+    def get_total_state(self):
+        return {
+            "state": self.state.copy(),
+            "address": self.address,
+            "input_address": self.input_address,
+            "relative_base": self.relative_base,
+            "inputs": self.inputs.copy()
+        }
+
 
     def get_indexes(self, mode, number_of_inputs):
         indexes = []

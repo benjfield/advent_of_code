@@ -71,6 +71,8 @@ class Direction(Flag):
             return cls.LEFT
         elif symbol == "v":
             return cls.DOWN
+        elif symbol == "^":
+            return cls.DOWN
             
     @classmethod
     def direction_from_letter(cls, letter):

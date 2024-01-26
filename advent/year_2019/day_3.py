@@ -80,3 +80,73 @@ def wires_1(text):
 
     return closest_distance
         
+
+@register(3, 2019, 2)
+def wires_2(text):
+    wire_paths = []
+
+    for instruction_set in text.split("\n"):
+        wire_paths.append({
+            "horizontal": [],
+            "vertical": []
+        }) 
+        x = 0
+        y = 0
+        for instruction in instruction_set.split(","):
+            parsed_instruction = re.match(r".*([RLDU])(.*)", instruction)
+
+            direction = Direction.direction_from_letter(parsed_instruction.group(1))
+            distance = int(parsed_instruction.group(2))
+
+            start_x = x
+            start_y = y
+            x, y = direction.move_forward(start_x, start_y, distance)
+
+            if direction.is_horizontal():
+                wire_paths[-1]["horizontal"].append(HorizontalWire(y, start_x, x))
+            else:
+                wire_paths[-1]["vertical"].append(VerticalWire(x, start_y, y))
+
+    crosses = {}
+
+    for wire in wire_paths[1]["horizontal"]:
+        for wire_to_cross in wire_paths[0]["vertical"]:
+            is_cross, cross_x, cross_y = wire_to_cross.cross(wire)            
+            if is_cross:
+                crosses[f"{cross_x}_{cross_y}"] = []
+
+    for wire in wire_paths[1]["vertical"]:
+        for wire_to_cross in wire_paths[0]["horizontal"]:
+            is_cross, cross_x, cross_y = wire_to_cross.cross(wire)            
+            if is_cross:
+                crosses[f"{cross_x}_{cross_y}"] = []
+
+    for instruction_set in text.split("\n"):
+        wire_paths.append({
+            "horizontal": [],
+            "vertical": []
+        }) 
+        x = 0
+        y = 0
+        count = 0
+        for instruction in instruction_set.split(","):
+            parsed_instruction = re.match(r".*([RLDU])(.*)", instruction)
+
+            direction = Direction.direction_from_letter(parsed_instruction.group(1))
+            distance = int(parsed_instruction.group(2))
+
+            for i in range(distance):
+                x, y = direction.move_forward(x, y)
+                count += 1
+
+                square = f"{y}_{x}"
+                if square in crosses:
+                    crosses[square].append(count)
+
+    smallest_distance_between_crosses = 1000000
+    for cross_distance in crosses.values():
+        distance = sum(cross_distance)
+        if distance < smallest_distance_between_crosses and distance > 0:
+            smallest_distance_between_crosses = distance
+
+    return smallest_distance_between_crosses
