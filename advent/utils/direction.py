@@ -8,33 +8,12 @@ class Direction(Flag):
 
     def rotate(self, clockwise = True):
         if clockwise:
-            if self == Direction.UP:
-                return Direction.RIGHT
-            elif self == Direction.RIGHT:
-                return Direction.DOWN
-            elif self == Direction.DOWN:
-                return Direction.LEFT
-            else:
-                return Direction.UP
+            return self.rotate_with_rotation(Rotation.CLOCKWISE)
         else:
-            if self == Direction.UP:
-                return Direction.LEFT
-            elif self == Direction.RIGHT:
-                return Direction.UP
-            elif self == Direction.DOWN:
-                return Direction.RIGHT
-            else:
-                return Direction.DOWN
+            return self.rotate_with_rotation(Rotation.ANTICLOCKWISE)
 
     def flip(self):
-        if self == Direction.UP:
-            return Direction.DOWN
-        elif self == Direction.RIGHT:
-            return Direction.LEFT
-        elif self == Direction.DOWN:
-            return Direction.UP
-        else:
-            return Direction.RIGHT
+        return self.rotate_with_rotation(Rotation.REVERSE)
             
     def move_forward(self, x, y, moves=1):
         if self == Direction.UP:
@@ -84,3 +63,67 @@ class Direction(Flag):
             return cls.DOWN
         elif letter == "U":
             return cls.UP
+        
+    def rotate_with_rotation(self, rotation):
+        if rotation == Rotation.CLOCKWISE:
+            if self == Direction.UP:
+                return Direction.RIGHT
+            elif self == Direction.RIGHT:
+                return Direction.DOWN
+            elif self == Direction.DOWN:
+                return Direction.LEFT
+            else:
+                return Direction.UP
+        elif rotation == Rotation.ANTICLOCKWISE:
+            if self == Direction.UP:
+                return Direction.LEFT
+            elif self == Direction.RIGHT:
+                return Direction.UP
+            elif self == Direction.DOWN:
+                return Direction.RIGHT
+            else:
+                return Direction.DOWN
+        elif rotation == Rotation.REVERSE:
+            if self == Direction.UP:
+                return Direction.DOWN
+            elif self == Direction.RIGHT:
+                return Direction.LEFT
+            elif self == Direction.DOWN:
+                return Direction.UP
+            else:
+                return Direction.RIGHT
+        elif rotation == Rotation.FORWARD:
+            return self
+        else:
+            raise Exception("Invalid rotation")
+
+    def get_rotation(self, next_direction):
+        for possible_rotation in Rotation:
+            if self.rotate_with_rotation(possible_rotation) == next_direction:
+                return possible_rotation
+
+class Rotation(Flag):
+    ANTICLOCKWISE = auto()
+    FORWARD = auto()
+    CLOCKWISE = auto()
+    REVERSE = auto()
+
+    def reverse(self):
+        if self == Rotation.CLOCKWISE:
+            return Rotation.ANTICLOCKWISE
+        elif self == Rotation.FORWARD:
+            return Rotation.REVERSE
+        elif self == Rotation.ANTICLOCKWISE:
+            return Rotation.CLOCKWISE
+        else:
+            return Rotation.FORWARD
+        
+    def get_letter(self):
+        if self == Rotation.CLOCKWISE:
+            return "R"
+        elif self == Rotation.ANTICLOCKWISE:
+            return "L"
+        else:
+            return ""
+        
+        
