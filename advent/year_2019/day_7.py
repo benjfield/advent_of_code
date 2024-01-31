@@ -1,17 +1,17 @@
 from advent.runner import register
-from advent.year_2019.computer import Computer
+from advent.year_2019.computer import computer_from_string, process
 import itertools
 
 @register(7, 2019, 1)
 def amp_1(text):
-    this_computer = Computer(text)
+    this_computer = computer_from_string(text)
 
     max_output = 0
     for input in itertools.permutations([0,1,2,3,4]):
         output = [0]
         for setting in input:
             this_computer.reset()
-            finished, output = this_computer.process([setting, output[0]])
+            finished, output = process(this_computer, [setting, output[0]])
         if output[0] > max_output:
             max_output = output[0]
 
@@ -22,7 +22,7 @@ def amp_2(text):
     max_output = 0
     computers = []
     for i in range(5):
-        computers.append(Computer(text))
+        computers.append(computer_from_string(text))
 
     for setting_permutation in itertools.permutations([5,6,7,8,9]):
         for computer in computers:
@@ -37,7 +37,7 @@ def amp_2(text):
                     input = [this_setting, output[0]]
                 else:
                     input = output
-                finished, output = computers[i].process(input)
+                finished, output = process(computers[i], input)
             first_run = False
         if output[0] > max_output:
             max_output = output[0]

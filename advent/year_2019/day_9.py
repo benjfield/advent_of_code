@@ -1,9 +1,9 @@
 from advent.runner import register
-from advent.year_2019.computer import Computer
+from advent.year_2019.computer import computer_from_string
 
 @register(9, 2019, 1)
 def boost_1(text):
-    this_computer = Computer(text)
+    this_computer = computer_from_string(text)
 
     results = this_computer.process([1])
 
@@ -14,7 +14,7 @@ def boost_1(text):
     
 @register(9, 2019, 2)
 def boost_2(text):
-    this_computer = Computer(text)
+    this_computer = computer_from_string(text)
 
     results = this_computer.process([2])
 

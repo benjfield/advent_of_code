@@ -1,14 +1,14 @@
 from advent.runner import register
-from advent.year_2019.computer import Computer
+from advent.year_2019.computer import Computer, computer_from_string
 from advent.utils.direction import Direction, Rotation
 from advent.utils.path_finding import Node
 import copy
 
 @register(17, 2019, 1)
 def ascii_1(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
-    finished, output = computer.process()
+    finished, output = computer.process_without_input()
 
     scaffold = [[]]
 
@@ -276,9 +276,9 @@ def journey_to_string(journey):
 
 
 def ascii_2(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
-    finished, output = computer.process()
+    finished, output = computer.process_without_input()
 
     scaffold = [[]]
 
@@ -382,14 +382,11 @@ def ascii_2_hardcoded(text):
 
     input = journey_ascii["Journey"] + journey_ascii["A"] + journey_ascii["B"] + journey_ascii["C"] + [ord("N"), 10]
 
-    print(journey_ascii["Journey"])
-
     computer = Computer(text)
 
     computer.state[0] = 2
     finished, output = computer.process(input)
 
-    print(finished)
     line = []
     for ascii in output:  
         if ascii == 10:
@@ -397,4 +394,4 @@ def ascii_2_hardcoded(text):
             line = []
         else:
             line.append(chr(ascii))
-    print(output[-1])
+    return output[-1]

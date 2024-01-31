@@ -1,6 +1,6 @@
 from advent.runner import register
 from advent.utils.path_finding import Node, NodeStore
-from advent.year_2019.computer import Computer
+from advent.year_2019.computer import computer_from_string
 from advent.utils.direction import Direction
 
 def get_direction_number(direction):
@@ -110,7 +110,7 @@ def djikstra_from_point_furthest_distance(initial_computer, initial_node, node_s
 
 @register(15, 2019, 1)
 def oxygen_1(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
     end_node_cost, end_node, node_state_cache = djikstra_to_oxygen(computer)
 
@@ -118,7 +118,7 @@ def oxygen_1(text):
 
 @register(15, 2019, 2)
 def oxygen_2(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
     end_node_cost, end_node, node_state_cache = djikstra_to_oxygen(computer)
 

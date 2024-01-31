@@ -1,10 +1,10 @@
 from advent.runner import register
-from advent.year_2019.computer import Computer
+from advent.year_2019.computer import computer_from_string
 from advent.utils.direction import Direction
 
 @register(11, 2019, 1)
 def paint_1(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
     current_direction = Direction.UP
 
@@ -30,7 +30,7 @@ def paint_1(text):
 
 @register(11, 2019, 2)
 def paint_2(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
     current_direction = Direction.UP
 

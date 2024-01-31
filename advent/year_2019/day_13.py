@@ -1,13 +1,13 @@
 from advent.runner import register
-from advent.year_2019.computer import Computer
+from advent.year_2019.computer import computer_from_string
 
 @register(13, 2019, 1)
 def arcade_1(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
     screen_output = {}
 
-    output = computer.process()
+    output = computer.process_without_input()
 
     if not output[0]:
         raise Exception("Not finished")
@@ -50,7 +50,6 @@ def get_game_state(output_data, game_data):
     return game_data
 
 def get_next_paddle_spot(game_data, ball_movement_right=True, ball_movement_down=True, paddle_height = 18):
-    print(game_data)
     ball_position = game_data["ball_position"]
     while ball_position[1] != paddle_height:
         if ball_movement_right:
@@ -95,9 +94,9 @@ def get_next_paddle_spot(game_data, ball_movement_right=True, ball_movement_down
 
 @register(13, 2019, 2)
 def arcade_2(text):
-    computer = Computer(text)
+    computer = computer_from_string(text)
 
-    output = computer.process()
+    output = computer.process_without_input()
 
     game_data = get_game_state(output[1], {"state": {}})
 
