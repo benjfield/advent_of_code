@@ -13,7 +13,6 @@ spec = [
 ]
 
 def print_output_as_ascii(output):
-    print(output)
     line = []
     for ascii in output:  
         if ascii > 255:
@@ -22,7 +21,6 @@ def print_output_as_ascii(output):
             print("".join(line))
             line = []
         else:
-            
             line.append(chr(ascii))
 
 def pre_generate_initial_state(initial_state_string):
