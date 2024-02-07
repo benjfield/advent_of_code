@@ -79,8 +79,8 @@ class Node:
     def __str__(self):
         return f"x {self.x} y {self.y}"
 
-def djikstra(map, start_x, start_y):
-    start_point = Node(start_x, start_y)
+def djikstra(map, start_x, start_y, node_type=Node, end_x=None, end_y=None):
+    start_point = node_type(start_x, start_y)
 
     open_list = NodeStore()
 
@@ -93,6 +93,12 @@ def djikstra(map, start_x, start_y):
 
     while len(open_list.store) > 0:
         current_square, current_square_cost = open_list.get_lowest_cost_node()
+        if end_x is not None and end_y is not None:
+            if current_square.x == end_x and current_square.y == end_y:
+                for key, value in closed_list.store.items():
+                    print(f"{key} {key.type()} {value}")
+                print(current_square_cost)
+                return current_square_cost
 
         open_list.remove_node(current_square)
 
