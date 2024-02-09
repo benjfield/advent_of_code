@@ -98,8 +98,6 @@ def djikstra(map, start_x, start_y, node_type=Node, end_x=None, end_y=None, tele
                 if current_square.x == end_x and current_square.y == end_y:
                     return current_square_cost
 
-        open_list.remove_node(current_square)
-
         closed_list.store_node(current_square, current_square_cost)
 
         neighbours = current_square.get_neighbours(final_x, final_y, map, teleporters)
@@ -324,8 +322,6 @@ def djikstra_with_recursive_levels(map, start_x, start_y, end_x=None, end_y=None
             if not current_square.is_teleporter():
                 if current_square.x == end_x and current_square.y == end_y and current_square.level == 0:
                     return current_square_cost
-
-        open_list.remove_node(current_square)
 
         closed_list.store_node(current_square, current_square_cost)
 

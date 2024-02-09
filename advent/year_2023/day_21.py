@@ -16,7 +16,7 @@ def garden_1(text, max=64):
             else:
                 map[-1].append(tile)
 
-    closed_list = djikstra(map, start_x, start_y)
+    closed_list = djikstra(map, Node(start_x, start_y))
     
     return closed_list.get_even_nodes_count_less_than_max(max)
 
@@ -35,14 +35,14 @@ def garden_2(text, max_distance=64):
             else:
                 map[-1].append(tile)
 
-    closed_list = djikstra(map, start_x, start_y)
+    closed_list = djikstra(map, Node(start_x, start_y))
 
     max_x = len(map[0]) - 1
     max_y = len(map) - 1
 
     corner_lengths = []
 
-    closed_list = djikstra(map, start_x, start_y)
+    closed_list = djikstra(map, Node(start_x, start_y))
 
     max_odd = True
     if max_distance%2 == 0:
@@ -76,7 +76,7 @@ def garden_2(text, max_distance=64):
                 reverse_y = max_y
             else:
                 reverse_y = 0        
-            corner_closed_list = djikstra(map, reverse_x, reverse_y)
+            corner_closed_list = djikstra(map, Node(reverse_x, reverse_y))
 
             odd_count, even_count = corner_closed_list.get_odd_and_even_count(max_x + max_y)
             
@@ -150,7 +150,7 @@ def garden_2(text, max_distance=64):
         else:
             reverse_y = start_y
 
-        horizontal_closed_list = djikstra(map, reverse_x, reverse_y)
+        horizontal_closed_list = djikstra(map, Node(reverse_x, reverse_y))
 
         odd_count, even_count = horizontal_closed_list.get_odd_and_even_count(2*max_x)
 

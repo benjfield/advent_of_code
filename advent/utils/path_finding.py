@@ -1,9 +1,15 @@
+import heapq
+
 class NodeStore:
     def __init__(self):
         self.store = {}
 
+    def store_initial_node(self, node):
+        self.store[node] = 0
+
     def store_node(self, node, cost):
         if cost < self.store.get(node, 1000000):
+            self.dummy_method()
             self.store[node] = cost
 
     def get_node_and_costs(self, node):
@@ -12,12 +18,15 @@ class NodeStore:
     def remove_node(self, node):
         self.store.pop(node)
     
+    def dummy_method(self):
+        pass
     def get_lowest_cost_node(self):
         lowest_cost = 1000000
         for key, value in self.store.items():
             if value < lowest_cost:
                 lowest_cost = value
                 lowest_cost_node = key
+        self.remove_node(lowest_cost_node)
         return lowest_cost_node, lowest_cost
     
     def get_highest_cost_node(self):
@@ -45,25 +54,88 @@ class NodeStore:
             if distance <= max and distance%2 == 0:
                 count += 1
         return count
+        
+    def is_empty(self):
+        if len(self.store) == 0:
+            return True
+
+class HugeLengthArray:
+    def __len__(self):
+        return 1000000
+
+class NodeStoreWithPath(NodeStore):
+    def store_initial_node(self, node):
+        self.store[node] = []
+
+    def store_node(self, node, path):
+        current_path = self.store.get(node, HugeLengthArray())
+        if len(path) < len(current_path):
+            self.store[node] = path
+
+    def get_node_and_path(self, node):
+        return node, self.store.get(node, None)
+    
+    def get_lowest_cost_node(self):
+        lowest_cost_path = HugeLengthArray()
+        for node, path in self.store.items():
+            if len(path) < len(lowest_cost_path):
+                lowest_cost_path = path
+                lowest_cost_node = node
+        self.remove_node(lowest_cost_node)
+        return lowest_cost_node, lowest_cost_path
+
+class NodeQueue:
+    def __init__(self):
+        self.priority_store = []
+        self.processed = set()
+        self.count = 0
+
+    def store_initial_node(self, node):
+        self.store_node(node, 0)
+
+    def store_node(self, node, cost):
+        new_entry = (cost, self.count, node)
+
+        heapq.heappush(self.priority_store, new_entry)
+        self.count += 1
+
+    def get_lowest_cost_node(self):
+        while self.priority_store:
+            cost, count, node = heapq.heappop(self.priority_store)
+            if node not in self.processed:
+                self.processed.add(node)
+                return node, cost
+        return None, 1000000
+    
+    def is_empty(self):
+        if len(self.priority_store) == 0:
+            return True
 
 class Node:
     def __init__(self, x, y):
        self.x = x
        self.y = y
 
-    def get_neighbours(self, final_x, final_y, map):
+    def get_neighbours(self, map, cost):
         neighbours = []
 
         for x, y in [(self.x - 1, self.y), (self.x + 1, self.y), (self.x, self.y - 1), (self.x, self.y + 1)]:
-            if self.check_valid_neighbour(x, y, final_x, final_y):
+            if self.check_valid_neighbour(x, y, len(map[0]) - 1, len(map) - 1):
                 if map[y][x] == ".":
-                    possible_neighbour = Node(
+                    possible_neighbour = type(self)(
                         x=x,
                         y=y,
                     )
-                    neighbours.append(possible_neighbour)
+                    self.append_neighbours(neighbours, possible_neighbour, cost)
         return neighbours
     
+    @classmethod
+    def append_neighbours(cls, neighbours, possible_neighbour, cost):
+        neighbours.append({
+            "neighbour": possible_neighbour,
+            "cost": cost + 1
+        })
+
     @classmethod
     def check_valid_neighbour(cls, x, y, final_x, final_y):
         return x >= 0 and x <= final_x and y >= 0 and y <= final_y
@@ -79,36 +151,56 @@ class Node:
     def __str__(self):
         return f"x {self.x} y {self.y}"
 
-def djikstra(map, start_x, start_y, node_type=Node, end_x=None, end_y=None):
-    start_point = node_type(start_x, start_y)
+class NodeWithPath(Node):
+    @classmethod
+    def append_neighbours(cls, neighbours, possible_neighbour, cost):
+        this_cost = cost.copy()
+        this_cost.append({
+            "x": possible_neighbour.x,
+            "y": possible_neighbour.y
+        })
 
-    open_list = NodeStore()
+        neighbours.append({
+            "neighbour":possible_neighbour,
+            "cost": this_cost
+        })
 
-    closed_list = NodeStore()
+def djikstra(map, start_point, store_with_path=False, terminate_function=None):
+    if store_with_path:
+        open_list = NodeStoreWithPath()
 
-    final_x = len(map[0]) - 1
-    final_y = len(map) - 1
+        closed_list = NodeStoreWithPath()
+    else:
+        closed_list = NodeStore()
+        
+        open_list = NodeQueue()
     
-    open_list.store_node(start_point, 0)
+    open_list.store_initial_node(start_point)
 
-    while len(open_list.store) > 0:
+    while not open_list.is_empty():
         current_square, current_square_cost = open_list.get_lowest_cost_node()
-        if end_x is not None and end_y is not None:
-            if current_square.x == end_x and current_square.y == end_y:
-                for key, value in closed_list.store.items():
-                    print(f"{key} {key.type()} {value}")
-                print(current_square_cost)
+        if current_square is None:
+            #Means this is finished
+            break
+        if terminate_function is not None:
+            if terminate_function(current_square):
+                print("Here")
                 return current_square_cost
-
-        open_list.remove_node(current_square)
 
         closed_list.store_node(current_square, current_square_cost)
 
-        neighbours = current_square.get_neighbours(final_x, final_y, map)
-        for neighbour in neighbours:
-            if neighbour in closed_list.store:
+        neighbours_with_costs = current_square.get_neighbours(map, current_square_cost)
+
+        #if len(closed_list.store) > 10000:
+        #    raise Exception("This is a bit mad")
+        #print(f"Neighbours for {current_square}:")
+        #for neighbour_with_cost in neighbours_with_costs:
+        #    print(neighbour_with_cost["neighbour"])
+
+        for neighbour_with_cost in neighbours_with_costs:
+            if neighbour_with_cost["neighbour"] in closed_list.store:
                 pass
             else:
-                open_list.store_node(neighbour, current_square_cost + 1)
+                open_list.store_node(neighbour_with_cost["neighbour"], neighbour_with_cost["cost"])
 
     return closed_list
