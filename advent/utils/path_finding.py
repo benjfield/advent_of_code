@@ -140,6 +140,7 @@ class Node:
     def check_valid_neighbour(cls, x, y, final_x, final_y):
         return x >= 0 and x <= final_x and y >= 0 and y <= final_y
     
+    #Obvious improvement here is to move to a numeeric hash - max_y * x + x would work fine
     def __hash__(self):
         return hash(str(self))
     
