@@ -8,3 +8,12 @@ up 3
 down 8
 forward 2'''
     assert submarine_1(text) == 150
+    
+def test_submarine_2():
+    text = '''forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2'''
+    assert submarine_2(text) == 900
