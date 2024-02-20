@@ -1,16 +1,4 @@
 import re
-original = { 
-    1: {"c", "f"},
-    7: {"a", "c", "f"},
-    4: {"b", "c", "d", "f"},
-    2: {"a", "c", "d", "e", "g"},
-    3: {"a", "c", "d", "f", "g"},
-    5: {"a", "b", "d", "f", "g"},
-    6: {"a", "b", "d", "e", "f", "g"},
-    9: {"a", "b", "c", "d", "f", "g"},
-    0: {"a", "b", "c", "e", "f", "g"},
-    8: {"a", "b", "c", "d", "e", "f", "g"},
-}
 from advent.runner import register
 @register(8, 2021, 1)
 def segment_display_1(text):
