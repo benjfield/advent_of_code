@@ -1,4 +1,3 @@
-import re
 from advent.runner import register
 @register(9, 2021, 1)
 def smoke_basin_1(text):
@@ -6,7 +5,7 @@ def smoke_basin_1(text):
 
     for line in text.split("\n"):
         smoke_array.append(
-            [ int(x) for x in list(line) ]
+            [ int(x) for x in line ]
         )
 
     low_point_total = 0
@@ -27,7 +26,7 @@ def smoke_basin_2(text):
 
     for line in text.split("\n"):
         smoke_array.append(
-            [ int(x) for x in list(line) ]
+            [ int(x) for x in line ]
         )
 
     low_points = {}
