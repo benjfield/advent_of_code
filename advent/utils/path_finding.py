@@ -1,4 +1,5 @@
 import heapq
+from functools import partial
 
 class NodeStore:
     def __init__(self):
@@ -130,10 +131,10 @@ class Node:
         return neighbours
     
     @classmethod
-    def append_neighbours(cls, neighbours, possible_neighbour, cost):
+    def append_neighbours(cls, neighbours, possible_neighbour, cost, additional_node_cost=1):
         neighbours.append({
             "neighbour": possible_neighbour,
-            "cost": cost + 1
+            "cost": cost + additional_node_cost
         })
 
     @classmethod
@@ -166,6 +167,15 @@ class NodeWithPath(Node):
             "cost": this_cost
         })
 
+def is_final_node(final_node, this_node):
+    if final_node == this_node:
+        return True
+    else:
+        return False
+
+def is_final_node_function(final_node):
+    return partial(is_final_node, final_node)
+
 def djikstra(map, start_point, store_with_path=False, terminate_function=None):
     if store_with_path:
         open_list = NodeStoreWithPath()
@@ -185,18 +195,11 @@ def djikstra(map, start_point, store_with_path=False, terminate_function=None):
             break
         if terminate_function is not None:
             if terminate_function(current_square):
-                print("Here")
                 return current_square_cost
 
         closed_list.store_node(current_square, current_square_cost)
 
         neighbours_with_costs = current_square.get_neighbours(map, current_square_cost)
-
-        #if len(closed_list.store) > 10000:
-        #    raise Exception("This is a bit mad")
-        #print(f"Neighbours for {current_square}:")
-        #for neighbour_with_cost in neighbours_with_costs:
-        #    print(neighbour_with_cost["neighbour"])
 
         for neighbour_with_cost in neighbours_with_costs:
             if neighbour_with_cost["neighbour"] in closed_list.store:
