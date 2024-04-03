@@ -32,8 +32,7 @@ def fft_1(text, passes=100):
                 index += 4 * (i + 1)
 
             number_array[i] = (abs(total))%10
-    print(text)
-    print("".join([ str(x) for x in number_array]))
+            
     return "".join([ str(x) for x in number_array[:8]])
 
 @register(16, 2019, 2)
