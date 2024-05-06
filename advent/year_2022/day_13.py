@@ -77,7 +77,6 @@ def distress_signal_2(split_text):
 
     total = 1
     for i, signal in enumerate(signals):
-        print(signal.signal)
         if signal.divider:
             total *= (i + 1)
 

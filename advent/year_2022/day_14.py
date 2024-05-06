@@ -96,8 +96,6 @@ def regolith_reservoir_2(split_text):
             else:
                 placed = True
 
-
-
         count += 1
         if x == 500 and y == 0:
             return count
