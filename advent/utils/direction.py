@@ -51,7 +51,17 @@ class Direction(Flag):
         elif symbol == "v":
             return cls.DOWN
         elif symbol == "^":
-            return cls.DOWN
+            return cls.UP
+            
+    def arrow_from_direction(self):
+        if self == Direction.RIGHT:
+            return ">"
+        elif self == Direction.LEFT:
+            return "<"
+        elif self == Direction.DOWN:
+            return "v"
+        elif self == Direction.UP:
+            return "^"
             
     @classmethod
     def direction_from_letter(cls, letter):
@@ -125,5 +135,12 @@ class Rotation(Flag):
             return "L"
         else:
             return ""
-        
-        
+    
+    @classmethod
+    def from_letter(cls, letter):
+        if letter == "R":
+            return Rotation.CLOCKWISE
+        elif letter == "L":
+            return Rotation.ANTICLOCKWISE
+        else:
+            raise NotImplementedError
