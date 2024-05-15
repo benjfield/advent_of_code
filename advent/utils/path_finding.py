@@ -143,7 +143,7 @@ class Node:
     
     #Obvious improvement here is to move to a numeeric hash - max_y * x + x would work fine
     def __hash__(self):
-        return hash(str(self))
+        return hash((self.x, self.y))
     
     def __eq__(self, other):
         if self.x == other.x and self.y == other.y:
