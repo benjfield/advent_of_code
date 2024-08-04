@@ -1,4 +1,6 @@
 from advent import runner
+from advent.year_2017 import *
+from advent.year_2018 import *
 from advent.year_2019 import *
 from advent.year_2020 import *
 from advent.year_2021 import *
