@@ -1,6 +1,5 @@
 from advent.year_2024.day_4 import *
 
-
 text = '''MMMSXXMASM
 MSAMXMSMSA
 AMXSXMAAMM
@@ -12,8 +11,8 @@ SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX'''.split("\n")
 
-def test_func_1():
-    assert func_1(text) == 18
+def test_wordsearch_1():
+    assert wordsearch_1(text) == 18
 
-def test_mull_2():
-    assert func_2(text) == 9
+def test_wordsearch_2():
+    assert wordsearch_2(text) == 9

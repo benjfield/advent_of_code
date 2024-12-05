@@ -1,7 +1,7 @@
 from advent.runner import register
 
 @register(4, 2024, 1, True)
-def func_1(text):
+def wordsearch_1(text):
     grid = []
     for line in text:
         grid.append([])
@@ -32,7 +32,7 @@ def func_1(text):
     return count
 
 @register(4, 2024, 2, True)
-def func_2(text):
+def wordsearch_2(text):
     grid = []
     for line in text:
         grid.append([])
