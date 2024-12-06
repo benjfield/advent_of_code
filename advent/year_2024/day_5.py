@@ -1,13 +1,6 @@
 from advent.runner import register
 from functools import cmp_to_key
 
-def add_lesser(rules, page, lesser_pages):
-    if page in rules:
-        for value in rules[page]:
-            lesser_pages.add(value)
-
-            add_lesser(rules, value, lesser_pages)
-
 def invalid_lesser(rules, page, search_page):
     if page in rules:
         if search_page in rules[page]:
