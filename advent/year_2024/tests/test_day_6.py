@@ -11,8 +11,8 @@ text = '''....#.....
 #.........
 ......#...'''.split("\n")
 
-def test_func_1():
-    assert func_1(text) == 41
+def test_guard_1():
+    assert guard_1(text) == 41
 
-def test_func_2():
-    assert func_2(text) == 6
+def test_guard_2():
+    assert guard_2(text) == 6

@@ -27,7 +27,7 @@ class Guard:
                 print(self.x, self.y, self.direction)
 
 @register(6, 2024, 1, True)
-def func_1(text):
+def guard_1(text):
     grid = []
     visited = {}
     guard = None
@@ -56,12 +56,12 @@ def func_1(text):
 
     return len(visited)
 
-@register(6, 2024, 2, False)
-def func_2(text):
+@register(6, 2024, 2, True)
+def guard_2(text):
     grid = []
     guard = None
 
-    for y, line in enumerate(text.split("\n")):
+    for y, line in enumerate(text):
         grid.append([])
         for x, char in enumerate(line):
             if char == "^":
