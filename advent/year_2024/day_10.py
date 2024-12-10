@@ -1,9 +1,8 @@
 from advent.runner import register
-import math
-from itertools import combinations
-from dataclasses import dataclass
+from advent.utils.split_text import split_text, Split
 from functools import lru_cache
 from advent.utils.direction import Direction
+from advent.utils.grid import check_inbounds
 
 map = None
 
@@ -17,7 +16,7 @@ def reachable_ends(x, y):
     for direction in Direction:
         neighbour_x, neighbour_y = direction.move_forward(x, y)
 
-        if neighbour_x >= 0 and neighbour_x < len(map[0]) and neighbour_y >= 0 and neighbour_y < len(map):
+        if check_inbounds(map, neighbour_x, neighbour_y):
             if map[neighbour_y][neighbour_x] == value + 1:
                 end_points.update(
                     reachable_ends(neighbour_x, neighbour_y)
@@ -25,12 +24,10 @@ def reachable_ends(x, y):
 
     return end_points
 
-@register(10, 2024, 1, True)
+@register(10, 2024, 1)
 def func_1(text):
     global map
-    map = []
-    for line in text:
-        map.append([int(x) for x in line])
+    map = split_text(text, Split.INT_GRID)
 
     total = 0
     for y, line in enumerate(map):
@@ -50,18 +47,16 @@ def reachable_ends_rating(x, y):
     for direction in Direction:
         neighbour_x, neighbour_y = direction.move_forward(x, y)
 
-        if neighbour_x >= 0 and neighbour_x < len(map[0]) and neighbour_y >= 0 and neighbour_y < len(map):
+        if check_inbounds(map, neighbour_x, neighbour_y):
             if map[neighbour_y][neighbour_x] == value + 1:
                 rating += reachable_ends_rating(neighbour_x, neighbour_y)
 
     return rating
 
-@register(10, 2024, 2, True)
+@register(10, 2024, 2)
 def func_2(text):
     global map
-    map = []
-    for line in text:
-        map.append([int(x) for x in line])
+    map = split_text(text, Split.INT_GRID)
 
     total = 0
     for y, line in enumerate(map):
