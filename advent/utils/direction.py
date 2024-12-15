@@ -15,7 +15,7 @@ class Direction(Flag):
     def flip(self):
         return self.rotate_with_rotation(Rotation.REVERSE)
             
-    def move_forward(self, x, y, moves=1):
+    def move_forward_x_and_y(self, x, y, moves=1):
         if self == Direction.UP:
             return x, y - moves
         elif self == Direction.RIGHT:
@@ -24,7 +24,10 @@ class Direction(Flag):
             return x, y + moves
         else:
             return x - moves, y
-        
+                    
+    def move_forward(self, coords, moves=1):
+        return self.move_forward_x_and_y(*coords, moves)
+    
     def is_horizontal(self):
         if self == Direction.RIGHT or self == Direction.LEFT:
             return True

@@ -38,7 +38,7 @@ def func_1(text):
             region = None
             region_count = 0
             for direction in [Direction.UP, Direction.LEFT]:
-                coords = direction.move_forward(x, y)
+                coords = direction.move_forward_x_and_y(x, y)
                 if coords in region_lookup:
                     this_region = region_lookup[coords]
                     if this_region.letter == char:
@@ -85,7 +85,7 @@ def func_2(text):
             region = None
             direction_set = set()
             for direction in [Direction.UP, Direction.LEFT]:
-                coords = direction.move_forward(x, y)
+                coords = direction.move_forward_x_and_y(x, y)
                 if coords in region_lookup:
                     this_region = region_lookup[coords]
                     if this_region.letter == char:

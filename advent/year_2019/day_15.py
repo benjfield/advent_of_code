@@ -21,7 +21,7 @@ class OxygenNode(Node):
         intial_state = node_state_cache[self]
 
         for direction in Direction:
-            x, y = direction.move_forward(self.x, self.y)
+            x, y = direction.move_forward_x_and_y(self.x, self.y)
             possible_neighbour = OxygenNode(
                 x=x,
                 y=y,

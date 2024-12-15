@@ -24,7 +24,7 @@ def paint_1(text):
         else:
             current_direction = current_direction.rotate(clockwise=True)
 
-        x, y = current_direction.move_forward(x, y)
+        x, y = current_direction.move_forward_x_and_y(x, y)
 
     return len(colour_coords)
 
@@ -54,7 +54,7 @@ def paint_2(text):
         else:
             current_direction = current_direction.rotate(clockwise=True)
 
-        x, y = current_direction.move_forward(x, y)
+        x, y = current_direction.move_forward_x_and_y(x, y)
 
         min_x = min(x, min_x)
         max_x = max(x, max_x)

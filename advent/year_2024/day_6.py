@@ -10,7 +10,7 @@ class Guard:
     y: int
 
     def move(self, map, debug=False):
-        new_x, new_y = self.direction.move_forward(self.x, self.y)
+        new_x, new_y = self.direction.move_forward_x_and_y(self.x, self.y)
 
         if new_x < 0 or new_y < 0:
             raise IndexError

@@ -6,9 +6,9 @@ def energise_tiles(layout_matrix, energised_matrix, x, y, direction):
     while(y < len(layout_matrix) and y >= 0 and x < len(layout_matrix[0]) and x >= 0 and not direction.in_direction_total(energised_matrix[y][x])):
         energised_matrix[y][x] = direction.add_to_direction_total(energised_matrix[y][x])
         if layout_matrix[y][x] == ".":
-            x, y = direction.move_forward(x, y)
+            x, y = direction.move_forward_x_and_y(x, y)
         elif ((direction == Direction.UP or direction == Direction.DOWN) and layout_matrix[y][x] == "|") or ((direction == Direction.LEFT or direction == Direction.RIGHT) and layout_matrix[y][x] == "-"):
-            x, y = direction.move_forward(x, y)
+            x, y = direction.move_forward_x_and_y(x, y)
         elif  (layout_matrix[y][x] == "|" or layout_matrix[y][x] == "-"):
             direction = direction.rotate()
             other_direction = direction.flip()
@@ -18,13 +18,13 @@ def energise_tiles(layout_matrix, energised_matrix, x, y, direction):
                 direction = direction.rotate(False)
             else:
                 direction = direction.rotate()
-            x, y = direction.move_forward(x, y)
+            x, y = direction.move_forward_x_and_y(x, y)
         elif layout_matrix[y][x] == "\\":
             if direction == Direction.LEFT or direction == Direction.RIGHT:
                 direction = direction.rotate()
             else:
                 direction = direction.rotate(False)
-            x, y = direction.move_forward(x, y)
+            x, y = direction.move_forward_x_and_y(x, y)
         else:
             raise Exception("Shouldnt be here")
 

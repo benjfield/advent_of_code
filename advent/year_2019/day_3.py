@@ -51,7 +51,7 @@ def wires_1(text):
 
             start_x = x
             start_y = y
-            x, y = direction.move_forward(start_x, start_y, distance)
+            x, y = direction.move_forward_x_and_y(start_x, start_y, distance)
 
             if direction.is_horizontal():
                 wire_paths[-1]["horizontal"].append(HorizontalWire(y, start_x, x))
@@ -100,7 +100,7 @@ def wires_2(text):
 
             start_x = x
             start_y = y
-            x, y = direction.move_forward(start_x, start_y, distance)
+            x, y = direction.move_forward_x_and_y(start_x, start_y, distance)
 
             if direction.is_horizontal():
                 wire_paths[-1]["horizontal"].append(HorizontalWire(y, start_x, x))
@@ -136,7 +136,7 @@ def wires_2(text):
             distance = int(parsed_instruction.group(2))
 
             for i in range(distance):
-                x, y = direction.move_forward(x, y)
+                x, y = direction.move_forward_x_and_y(x, y)
                 count += 1
 
                 square = f"{y}_{x}"

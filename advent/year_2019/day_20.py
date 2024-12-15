@@ -147,7 +147,7 @@ def get_precalced_details(split_text):
                         elif split_text[check_y][check_x].isalpha():
                             first_letter = False
                             for direction in [Direction.RIGHT, Direction.DOWN]:
-                                direction_x, direction_y = direction.move_forward(x, y)
+                                direction_x, direction_y = direction.move_forward_x_and_y(x, y)
                                 if direction_x == check_x and direction_y == check_y:
                                     first_letter = True
 

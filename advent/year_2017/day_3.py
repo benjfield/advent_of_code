@@ -40,7 +40,7 @@ def spiral_memory_2(text):
             (Direction.DOWN, 1)
         ]:
             for i in range(distance + additional):
-                x, y = direction.move_forward(x, y)
+                x, y = direction.move_forward_x_and_y(x, y)
 
                 sum = 0
                 for x_change in [-1, 0, 1]:

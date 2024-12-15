@@ -51,7 +51,7 @@ class Node:
     def get_neighbours(self, final_x, final_y):
         neighbours = []
         if self.move_count < 3:
-            x, y = self.direction.move_forward(self.x, self.y)
+            x, y = self.direction.move_forward_x_and_y(self.x, self.y)
             if x >= 0 and x <= final_x and y >= 0 and y <= final_y:
                 possible_neighbour = Node(
                     x=x,
@@ -62,7 +62,7 @@ class Node:
                 neighbours.append(possible_neighbour)
         for clockwise in [False, True]:
             direction = self.direction.rotate(clockwise)
-            x, y = direction.move_forward(self.x, self.y)
+            x, y = direction.move_forward_x_and_y(self.x, self.y)
             if x >= 0 and x <= final_x and y >= 0 and y <= final_y:
                 possible_neighbour = Node(
                     x=x,
@@ -88,7 +88,7 @@ class Ultra_Node(Node):
     def get_neighbours(self, final_x, final_y):
         neighbours = []
         if self.move_count < 10:
-            x, y = self.direction.move_forward(self.x, self.y)
+            x, y = self.direction.move_forward_x_and_y(self.x, self.y)
             if x >= 0 and x <= final_x and y >= 0 and y <= final_y:
                 possible_neighbour = Ultra_Node(
                     x=x,
@@ -100,7 +100,7 @@ class Ultra_Node(Node):
         if self.move_count >= 4:
             for clockwise in [False, True]:
                 direction = self.direction.rotate(clockwise)
-                x, y = direction.move_forward(self.x, self.y)
+                x, y = direction.move_forward_x_and_y(self.x, self.y)
                 if x >= 0 and x <= final_x and y >= 0 and y <= final_y:
                     possible_neighbour = Ultra_Node(
                         x=x,

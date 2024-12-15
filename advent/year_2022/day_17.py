@@ -92,7 +92,7 @@ class RockChannel:
         rock_finished = False
         while not rock_finished:
             flow_direction = self.flow_directions[flow_index % len(self.flow_directions)]
-            new_shape_coords = [flow_direction.move_forward(coord[0], coord[1]) for coord in shape_coords]
+            new_shape_coords = [flow_direction.move_forward_x_and_y(coord[0], coord[1]) for coord in shape_coords]
 
             valid_move = True
             for new_shape_coord in new_shape_coords:
@@ -103,7 +103,7 @@ class RockChannel:
             if valid_move:
                 shape_coords = new_shape_coords
 
-            new_shape_coords = [Direction.UP.move_forward(coord[0], coord[1]) for coord in shape_coords]
+            new_shape_coords = [Direction.UP.move_forward_x_and_y(coord[0], coord[1]) for coord in shape_coords]
 
             valid_move = True
             for new_shape_coord in new_shape_coords:

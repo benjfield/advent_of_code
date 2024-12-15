@@ -28,7 +28,7 @@ class Ship:
                 for i in range(int(number/90)):
                     self.direction = self.direction.rotate(True)
             case "F":
-                self.x, self.y = self.direction.move_forward(self.x, self.y, number)
+                self.x, self.y = self.direction.move_forward_x_and_y(self.x, self.y, number)
      
 @register(12, 2020, 1, True)
 def rain_risk_1(split_text):

@@ -17,7 +17,7 @@ def rope_bridge_1(split_text):
         direction = Direction.direction_from_letter(split_line[0])
 
         for i in range(int(split_line[1])):
-            head_x_position, head_y_position = direction.move_forward(head_x_position, head_y_position)
+            head_x_position, head_y_position = direction.move_forward_x_and_y(head_x_position, head_y_position)
 
             x_diff = head_x_position - tail_x_position
             y_diff = head_y_position - tail_y_position
@@ -61,7 +61,7 @@ def rope_bridge_2(split_text):
         for i in range(int(split_line[1])):
             for i, tail_knot in enumerate(knots):
                 if i == 0:
-                    x_position, y_position = direction.move_forward(tail_knot["x_position"], tail_knot["y_position"])
+                    x_position, y_position = direction.move_forward_x_and_y(tail_knot["x_position"], tail_knot["y_position"])
                     tail_knot["x_position"] = x_position
                     tail_knot["y_position"] = y_position
                 else:

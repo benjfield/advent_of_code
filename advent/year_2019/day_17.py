@@ -52,7 +52,7 @@ class NeighbourNode(Node):
 
     def populate_neighbours(self, nodes):
         for direction in self.valid_directions:
-            x, y = direction.move_forward(self.x, self.y)
+            x, y = direction.move_forward_x_and_y(self.x, self.y)
             potential_neighbour = Node(x, y)
             if potential_neighbour in nodes:
                 self.neighbours[direction] = nodes[potential_neighbour]

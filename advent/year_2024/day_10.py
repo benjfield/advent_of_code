@@ -14,7 +14,7 @@ def reachable_ends(x, y):
     
     end_points = set()
     for direction in Direction:
-        neighbour_x, neighbour_y = direction.move_forward(x, y)
+        neighbour_x, neighbour_y = direction.move_forward_x_and_y(x, y)
 
         if check_inbounds(map, neighbour_x, neighbour_y):
             if map[neighbour_y][neighbour_x] == value + 1:
@@ -45,7 +45,7 @@ def reachable_ends_rating(x, y):
     
     rating = 0
     for direction in Direction:
-        neighbour_x, neighbour_y = direction.move_forward(x, y)
+        neighbour_x, neighbour_y = direction.move_forward_x_and_y(x, y)
 
         if check_inbounds(map, neighbour_x, neighbour_y):
             if map[neighbour_y][neighbour_x] == value + 1:

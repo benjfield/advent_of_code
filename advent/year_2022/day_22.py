@@ -52,13 +52,13 @@ class Space:
         }
 
         for direction in Direction:
-            coord = direction.move_forward(self.x, self.y)
+            coord = direction.move_forward_x_and_y(self.x, self.y)
             
             if tiles[coord[1]][coord[0]] == Tile.WRAP:
                 coord = other_side[direction]
 
                 while tiles[coord[1]][coord[0]] == Tile.WRAP:
-                    coord = direction.move_forward(coord[0], coord[1])
+                    coord = direction.move_forward_x_and_y(coord[0], coord[1])
 
             if tiles[coord[1]][coord[0]] == Tile.SPACE:
 
@@ -212,7 +212,7 @@ class CubeSpace(Space):
 
         for direction in Direction:
             original_direction = direction
-            coord = direction.move_forward(self.x, self.y)
+            coord = direction.move_forward_x_and_y(self.x, self.y)
             
             if tiles[coord[1]][coord[0]] == Tile.WRAP:
                 if direction in (Direction.LEFT, Direction.RIGHT):

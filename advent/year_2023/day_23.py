@@ -31,7 +31,7 @@ class Node:
         entrance_and_exit_nodes = 0
 
         for direction in directions:
-            x, y = direction.move_forward(self.x, self.y)
+            x, y = direction.move_forward_x_and_y(self.x, self.y)
             node_string = f"x {x} y {y}"
             if node_string in nodes:
                 entrance_and_exit_nodes += 1
