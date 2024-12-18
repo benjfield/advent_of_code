@@ -11,12 +11,39 @@ from advent.utils.grid import check_inbounds
 
 @dataclass
 class Cost:
-    path: set[tuple[int, int]]
     cost: int
 
     def get_cost(self) -> int:
         return self.cost
     
+    def merge(self, other_cost: Self):
+        return self
+
+    def next_cost(
+        self, 
+        possible_neighbour,
+        additional_node_cost: int = 1):        
+        return type(self)(
+            self.cost + additional_node_cost,
+        )
+    
+    @classmethod
+    def initial(cls, node):
+        return cls(
+            0,
+        )
+    
+    def __str__(self):
+        return f"cost {self.get_cost()}"
+    
+class CostWithVisited(Cost):
+    path: set[tuple[int, int]]
+    cost: int
+    
+    def __init__(self, path, cost):
+        self.path = path
+        self.cost = cost
+
     def merge(self, other_cost: Self):
         self.path.update(other_cost.path)
 
@@ -107,16 +134,17 @@ class ClosedList:
     def is_empty(self):
         if len(self.store) == 0:
             return True
-        
+            
 class OpenList:
     def __init__(self):
         self.priority_store = []
-        self.processed = {}
+        self.processed = set()
         self.costs = {}
         self.count = 0
+        self.cost_type = Cost
 
     def store_initial_node(self, node):
-        self.store_node(node, Cost.initial(node))
+        self.store_node(node, self.cost_type.initial(node))
 
     def store_node(self, node, cost):
         new_entry = (cost.get_cost(), self.count, node)
@@ -128,9 +156,9 @@ class OpenList:
 
     def get_lowest_cost_node(self) -> tuple[Node, Cost]:
         while self.priority_store:
-            cost, count, node = heapq.heappop(self.priority_store)
-            if node not in self.processed or self.processed[node] == cost:
-                self.processed[node] = cost
+            _, count, node = heapq.heappop(self.priority_store)
+            if node not in self.processed:
+                self.processed.add(node)
                 cost_object = self.costs[(node, count)]
                 return node, cost_object
         return None, 1000000
@@ -138,6 +166,23 @@ class OpenList:
     def is_empty(self):
         if len(self.priority_store) == 0:
             return True
+
+class OpenListRunEqual(OpenList):
+    def __init__(self):
+        self.priority_store = []
+        self.processed = {}
+        self.costs = {}
+        self.count = 0
+        self.cost_type = CostWithVisited
+
+    def get_lowest_cost_node(self) -> tuple[Node, Cost]:
+        while self.priority_store:
+            cost, count, node = heapq.heappop(self.priority_store)
+            if node not in self.processed or self.processed[node] == cost:
+                self.processed[node] = cost
+                cost_object = self.costs[(node, count)]
+                return node, cost_object
+        return None, 1000000
         
 def has_final_coords(final_coords, this_node):
     if final_coords == this_node.coord:
@@ -157,10 +202,13 @@ def is_final_node(final_node, this_node):
 def is_final_node_function(final_node):
     return partial(is_final_node, final_node)
 
-def djikstra(map, start_point, terminate_function=None):
+def djikstra(map, start_point, terminate_function=None, run_equal_options=True):
     closed_list = ClosedList()
     
-    open_list = OpenList()
+    if run_equal_options:
+        open_list = OpenListRunEqual()
+    else:
+        open_list = OpenList()
     
     open_list.store_initial_node(start_point)
 
