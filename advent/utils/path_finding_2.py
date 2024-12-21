@@ -111,6 +111,10 @@ class Node:
 
     def __str__(self):
         return f"x {self.coord[0]} y {self.coord[1]}"
+        
+class MapNode(Node):
+    def check_valid_neighbour(self, map, direction, neighbour_coord):
+        return map.check_node(neighbour_coord)
 
 class ClosedList:
     def __init__(self):
@@ -182,7 +186,7 @@ class OpenListRunEqual(OpenList):
                 self.processed[node] = cost
                 cost_object = self.costs[(node, count)]
                 return node, cost_object
-        return None, 1000000
+        return None, Cost(1000000)
         
 def has_final_coords(final_coords, this_node):
     if final_coords == this_node.coord:
@@ -202,7 +206,7 @@ def is_final_node(final_node, this_node):
 def is_final_node_function(final_node):
     return partial(is_final_node, final_node)
 
-def djikstra(map, start_point, terminate_function=None, run_equal_options=True):
+def djikstra(map, start_point, terminate_function=None, run_equal_options=True, max_cost=None):
     closed_list = ClosedList()
     
     if run_equal_options:
@@ -220,6 +224,9 @@ def djikstra(map, start_point, terminate_function=None, run_equal_options=True):
         if terminate_function is not None:
             if terminate_function(current_node):
                 return current_node_cost
+        if max_cost is not None:
+            if current_node_cost.get_cost() > max_cost:
+                return None
 
         current_node_cost = closed_list.store_node(current_node, current_node_cost)
 
