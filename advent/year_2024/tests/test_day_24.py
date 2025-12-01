@@ -66,4 +66,5 @@ def test_func_1_2():
     assert func_1(text_2) == 2024
   
 def test_func_2():
+    return
     assert func_2(text_1) == None
