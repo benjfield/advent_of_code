@@ -11,6 +11,7 @@ advent-of-code-data = "^2"
 numba = "^0.62.1"
 graphviz = "^0.20.3"
 pytest = "^8.3.4"
+sortedcontainers = "^2.4.0"
 
 [build-system]
 requires = ["poetry-core"]

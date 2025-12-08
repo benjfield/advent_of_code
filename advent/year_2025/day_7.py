@@ -61,6 +61,7 @@ def recursive_splitters_2(beam_value, level):
                 level + 1,
             )
         
+#Alternative would be the same approach as before but with a dict of counts, this would be faster but above is fine.
 @register(7, 2025, 2, True)
 def splitter_2(text):
     splitters = []    
