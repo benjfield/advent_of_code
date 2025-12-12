@@ -1,8 +1,32 @@
-from advent.year_2025.day_10 import *
+from advent.year_2025.day_11 import *
 
-text = '''[.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
-[...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}
-[.###.#] (0,1,2,3,4) (0,3,4) (0,1,2,4,5) (1,2) {10,11,11,5,10,5}'''.split("\n")
+text = '''aaa: you hhh
+you: bbb ccc
+bbb: ddd eee
+ccc: ddd eee fff
+ddd: ggg
+eee: out
+fff: out
+ggg: out
+hhh: ccc fff iii
+iii: out'''.split("\n")
 
-def test_buttons_2():
-    assert buttons_2(text) == 33
+def test_server_rack_1():
+    assert server_rack_1(text) == 5
+
+text_2 = '''svr: aaa bbb
+aaa: fft
+fft: ccc
+bbb: tty
+tty: ccc
+ccc: ddd eee
+ddd: hub
+hub: fff
+eee: dac
+dac: fff
+fff: ggg hhh
+ggg: out
+hhh: out'''.split("\n")
+
+def test_server_rack_2():
+    assert server_rack_2(text_2) == 2
